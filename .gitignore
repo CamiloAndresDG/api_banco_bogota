@@ -24,3 +24,8 @@ target/*
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+.project
+.settings/org.eclipse.m2e.core.prefs
+target/classes/META-INF/maven/co.edu.usbbog.bdd/api_banco_bogota/pom.properties
+.settings/org.eclipse.m2e.core.prefs
+.settings/org.eclipse.m2e.core.prefs
