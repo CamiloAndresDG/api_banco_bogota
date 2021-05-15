@@ -29,3 +29,6 @@ hs_err_pid*
 target/classes/META-INF/maven/co.edu.usbbog.bdd/api_banco_bogota/pom.properties
 .settings/org.eclipse.m2e.core.prefs
 .settings/org.eclipse.m2e.core.prefs
+target/classes/META-INF/maven/co.edu.usbbog.bdd/api_banco_bogota/pom.xml
+target/classes/META-INF/maven/co.edu.usbbog.bdd/api_banco_bogota/pom.properties
+target/classes/application.properties
