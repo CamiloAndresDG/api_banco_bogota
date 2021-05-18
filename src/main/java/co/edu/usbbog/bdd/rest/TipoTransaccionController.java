@@ -5,31 +5,24 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import co.edu.usbbog.bdd.model.Ciudad;
-import co.edu.usbbog.bdd.service.ICiudadService;
-
-
-
+import co.edu.usbbog.bdd.model.TipoTransaccion;
+import co.edu.usbbog.bdd.service.TipoTransaccionService;
 
 @RestController
-// @RequestMapping("/prueba")
-public class CiudadController {
-
-	@Autowired
-	ICiudadService ciudadService;
+public class TipoTransaccionController {
 	
-	@GetMapping("/crearCiudad")
+	@Autowired
+	TipoTransaccionService tipoService;
+	
+	@GetMapping("/crearTipo")
 //	@Procedure("application/json")
-	public String crearCiudad(@RequestBody Ciudad newCiudad) {
+	public String crearTipo(@RequestBody TipoTransaccion newTipo) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.crearCiudad(newCiudad).equals("Se guardo la ciudad")) {
+		if(tipoService.crearTipoTransaccion(newTipo).equals("Se guardo el tipo de transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -39,18 +32,19 @@ public class CiudadController {
 	}
 	
 	
-	@PostMapping("/contarCiudad")
-	public String contarRol() {
+	@PostMapping("/contarTipo")
+	public String contarTipo() {
 		JSONObject respuesta= new JSONObject();
-			int aux=ciudadService.contarCiudad();
+			int aux=tipoService.contarTipoTransaccion();
 			respuesta.put("Count", aux);
 			return respuesta.toString();
 	}
 	
-	@PostMapping("/eliminarCiudad")
-	public String eliminarRol(@RequestBody Ciudad newCiudad) {
+	
+	@PostMapping("/eliminarTipo")
+	public String eliminarTipo(@RequestBody TipoTransaccion newTipo) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.eliminarCiuadad(newCiudad).equals("Se elimino la ciudad")) {
+		if(tipoService.eliminarTipoTransaccion(newTipo).equals("Se elimino el tipo de transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -60,23 +54,24 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/getCiudad")
-	public String getRoles() {
+	@PostMapping("/getTipo")
+	public String getTipo() {
 		JSONArray array= new JSONArray();
-		List<Ciudad> ciudades=ciudadService.findAll();
-		for (int i = 0; i < ciudades.size(); i++) {
+		List<TipoTransaccion> tipo=tipoService.findAll();
+		for (int i = 0; i < tipo.size(); i++) {
 			JSONObject ciudadJson= new JSONObject();
-			ciudadJson.put("id", ciudades.get(i).getId());
-			ciudadJson.put("nombre", ciudades.get(i).getNombre());
+			ciudadJson.put("ID", tipo.get(i).getId());
+			ciudadJson.put("Nombre", tipo.get(i).getNombre());
 			array.put(ciudadJson);
 		}
 		return array.toString();
 	}
 	
-	@PostMapping("/buscarCiudad")
-	public String buscarRol(@RequestBody Ciudad ciudad) {
+	
+	@PostMapping("/buscarTipo")
+	public String buscarTipo(@RequestBody TipoTransaccion tipo) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.mostrarCiudad(ciudad.getId())!=null) {
+		if(tipoService.mostrarTipoTransaccion(tipo.getId())!=null) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -86,10 +81,10 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/modificarCiudad")
-	public String modificarRol(@RequestBody Ciudad newCiudad) {
+	@PostMapping("/modificarTipo")
+	public String modificarTipo(@RequestBody TipoTransaccion newTipo) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.modificarCiudad(newCiudad).equals("Se modifico la ciudad")) {
+		if(tipoService.modificarTipoTransaccion(newTipo).equals("Se modifico el tipo de transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -98,6 +93,4 @@ public class CiudadController {
 		}
 		
 	}
-
-	
 }

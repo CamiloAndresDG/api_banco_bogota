@@ -24,13 +24,13 @@ import javax.xml.bind.annotation.XmlTransient;
  * @author Camilo y Roberth
  */
 @Entity
-@Table(name = "ciudad")
+@Table(name = "tipo_transaccion")
 @XmlRootElement
 @NamedQueries({
-    @NamedQuery(name = "Ciudad.findAll", query = "SELECT c FROM Ciudad c")
-    , @NamedQuery(name = "Ciudad.findById", query = "SELECT c FROM Ciudad c WHERE c.id = :id")
-    , @NamedQuery(name = "Ciudad.findByNombre", query = "SELECT c FROM Ciudad c WHERE c.nombre = :nombre")})
-public class Ciudad implements Serializable {
+    @NamedQuery(name = "TipoTransaccion.findAll", query = "SELECT t FROM TipoTransaccion t")
+    , @NamedQuery(name = "TipoTransaccion.findById", query = "SELECT t FROM TipoTransaccion t WHERE t.id = :id")
+    , @NamedQuery(name = "TipoTransaccion.findByNombre", query = "SELECT t FROM TipoTransaccion t WHERE t.nombre = :nombre")})
+public class TipoTransaccion implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -40,17 +40,17 @@ public class Ciudad implements Serializable {
     @Basic(optional = false)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "ciudad")
-    private List<Cuenta> cuentaList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipo")
+    private List<Transaccion> transaccionList;
 
-    public Ciudad() {
+    public TipoTransaccion() {
     }
 
-    public Ciudad(Integer id) {
+    public TipoTransaccion(Integer id) {
         this.id = id;
     }
 
-    public Ciudad(Integer id, String nombre) {
+    public TipoTransaccion(Integer id, String nombre) {
         this.id = id;
         this.nombre = nombre;
     }
@@ -72,12 +72,12 @@ public class Ciudad implements Serializable {
     }
 
     @XmlTransient
-    public List<Cuenta> getCuentaList() {
-        return cuentaList;
+    public List<Transaccion> getTransaccionList() {
+        return transaccionList;
     }
 
-    public void setCuentaList(List<Cuenta> cuentaList) {
-        this.cuentaList = cuentaList;
+    public void setTransaccionList(List<Transaccion> transaccionList) {
+        this.transaccionList = transaccionList;
     }
 
     @Override
@@ -90,10 +90,10 @@ public class Ciudad implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Ciudad)) {
+        if (!(object instanceof TipoTransaccion)) {
             return false;
         }
-        Ciudad other = (Ciudad) object;
+        TipoTransaccion other = (TipoTransaccion) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -102,7 +102,7 @@ public class Ciudad implements Serializable {
 
     @Override
     public String toString() {
-        return "api.Ciudad[ id=" + id + " ]";
+        return "api.TipoTransaccion[ id=" + id + " ]";
     }
     
 }

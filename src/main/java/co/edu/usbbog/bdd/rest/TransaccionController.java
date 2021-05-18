@@ -5,31 +5,26 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import co.edu.usbbog.bdd.model.Ciudad;
-import co.edu.usbbog.bdd.service.ICiudadService;
-
-
-
+import co.edu.usbbog.bdd.model.TipoTransaccion;
+import co.edu.usbbog.bdd.model.Transaccion;
+import co.edu.usbbog.bdd.service.TransaccionService;
 
 @RestController
-// @RequestMapping("/prueba")
-public class CiudadController {
-
+public class TransaccionController {
 	@Autowired
-	ICiudadService ciudadService;
+	TransaccionService traService;
 	
-	@GetMapping("/crearCiudad")
+	
+	@GetMapping("/crearTrans")
 //	@Procedure("application/json")
-	public String crearCiudad(@RequestBody Ciudad newCiudad) {
+	public String crearTrans(@RequestBody Transaccion newTrans) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.crearCiudad(newCiudad).equals("Se guardo la ciudad")) {
+		if(traService.crearTransaccion(newTrans).equals("Se guardo la transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -38,19 +33,18 @@ public class CiudadController {
 		}
 	}
 	
-	
-	@PostMapping("/contarCiudad")
-	public String contarRol() {
+	@PostMapping("/contarTrans")
+	public String contarTrans() {
 		JSONObject respuesta= new JSONObject();
-			int aux=ciudadService.contarCiudad();
+			int aux=traService.contarTransaccion();
 			respuesta.put("Count", aux);
 			return respuesta.toString();
 	}
 	
-	@PostMapping("/eliminarCiudad")
-	public String eliminarRol(@RequestBody Ciudad newCiudad) {
+	@PostMapping("/eliminarTrans")
+	public String eliminarTrans(@RequestBody Transaccion newTrans) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.eliminarCiuadad(newCiudad).equals("Se elimino la ciudad")) {
+		if(traService.eliminarTransaccion(newTrans).equals("Se elimino la transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -60,23 +54,26 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/getCiudad")
-	public String getRoles() {
+	@PostMapping("/getTrans")
+	public String getTrans() {
 		JSONArray array= new JSONArray();
-		List<Ciudad> ciudades=ciudadService.findAll();
-		for (int i = 0; i < ciudades.size(); i++) {
+		List<Transaccion> trans=traService.findAll();
+		for (int i = 0; i < trans.size(); i++) {
 			JSONObject ciudadJson= new JSONObject();
-			ciudadJson.put("id", ciudades.get(i).getId());
-			ciudadJson.put("nombre", ciudades.get(i).getNombre());
+			ciudadJson.put("ID", trans.get(i).getId());
+			ciudadJson.put("Valor", trans.get(i).getValor());
+			ciudadJson.put("Fecha", trans.get(i).getFecha());
+			ciudadJson.put("Tipo", trans.get(i).getTipo());
+			ciudadJson.put("Cuenta", trans.get(i).getCuenta());
 			array.put(ciudadJson);
 		}
 		return array.toString();
 	}
 	
-	@PostMapping("/buscarCiudad")
-	public String buscarRol(@RequestBody Ciudad ciudad) {
+	@PostMapping("/buscarTrans")
+	public String buscarTrans(@RequestBody Transaccion tipo) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.mostrarCiudad(ciudad.getId())!=null) {
+		if(traService.mostrarTransaccion(tipo.getId())!=null) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -86,10 +83,10 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/modificarCiudad")
-	public String modificarRol(@RequestBody Ciudad newCiudad) {
+	@PostMapping("/modificarTrans")
+	public String modificarTrans(@RequestBody Transaccion newTrans) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.modificarCiudad(newCiudad).equals("Se modifico la ciudad")) {
+		if(traService.modificarTransaccion(newTrans).equals("Se modifico la transaccion")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -98,6 +95,4 @@ public class CiudadController {
 		}
 		
 	}
-
-	
 }

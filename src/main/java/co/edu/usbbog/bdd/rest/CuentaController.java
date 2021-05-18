@@ -5,31 +5,23 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.query.Procedure;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import co.edu.usbbog.bdd.model.Ciudad;
-import co.edu.usbbog.bdd.service.ICiudadService;
-
-
-
+import co.edu.usbbog.bdd.model.Cuenta;
+import co.edu.usbbog.bdd.service.ICuentaService;
 
 @RestController
-// @RequestMapping("/prueba")
-public class CiudadController {
-
+public class CuentaController {
 	@Autowired
-	ICiudadService ciudadService;
+	ICuentaService cuentaService;
 	
-	@GetMapping("/crearCiudad")
+	@GetMapping("/crearCuenta")
 //	@Procedure("application/json")
-	public String crearCiudad(@RequestBody Ciudad newCiudad) {
+	public String crearCuenta(@RequestBody Cuenta newCuenta) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.crearCiudad(newCiudad).equals("Se guardo la ciudad")) {
+		if(cuentaService.crearCuenta(newCuenta).equals("Se guardo la cuenta")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -39,18 +31,18 @@ public class CiudadController {
 	}
 	
 	
-	@PostMapping("/contarCiudad")
-	public String contarRol() {
+	@PostMapping("/contarCuenta")
+	public String contarCuenta() {
 		JSONObject respuesta= new JSONObject();
-			int aux=ciudadService.contarCiudad();
+			int aux=cuentaService.contarCuenta();
 			respuesta.put("Count", aux);
 			return respuesta.toString();
 	}
 	
-	@PostMapping("/eliminarCiudad")
-	public String eliminarRol(@RequestBody Ciudad newCiudad) {
+	@PostMapping("/eliminarCuenta")
+	public String eliminarCuenta(@RequestBody Cuenta newCuenta) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.eliminarCiuadad(newCiudad).equals("Se elimino la ciudad")) {
+		if(cuentaService.eliminarCuenta(newCuenta).equals("Se elimino la cuenta")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -60,23 +52,29 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/getCiudad")
-	public String getRoles() {
+	@PostMapping("/getCuenta")
+	public String getCuenta() {
 		JSONArray array= new JSONArray();
-		List<Ciudad> ciudades=ciudadService.findAll();
-		for (int i = 0; i < ciudades.size(); i++) {
+		List<Cuenta> cuenta=cuentaService.findAll();
+		for (int i = 0; i < cuenta.size(); i++) {
 			JSONObject ciudadJson= new JSONObject();
-			ciudadJson.put("id", ciudades.get(i).getId());
-			ciudadJson.put("nombre", ciudades.get(i).getNombre());
+			ciudadJson.put("Numero", cuenta.get(i).getNum());
+			ciudadJson.put("Cedula", cuenta.get(i).getCedula());
+			ciudadJson.put("Nombre", cuenta.get(i).getNombres());
+			ciudadJson.put("Telefono", cuenta.get(i).getTelefono());
+			ciudadJson.put("Saldo", cuenta.get(i).getSaldo());
+			ciudadJson.put("Ciudad", cuenta.get(i).getCiudad());
 			array.put(ciudadJson);
 		}
 		return array.toString();
 	}
 	
-	@PostMapping("/buscarCiudad")
-	public String buscarRol(@RequestBody Ciudad ciudad) {
+	@PostMapping("/buscarCuenta")
+	public String buscarCuenta(@RequestBody Cuenta cuenta) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.mostrarCiudad(ciudad.getId())!=null) {
+		int busqueda= cuenta.getNum();
+		if(busqueda!= 0) {
+			cuentaService.mostrarCuenta(cuenta.getNum());
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -86,10 +84,10 @@ public class CiudadController {
 		
 	}
 	
-	@PostMapping("/modificarCiudad")
-	public String modificarRol(@RequestBody Ciudad newCiudad) {
+	@PostMapping("/modificarCuenta")
+	public String modificarcuenta(@RequestBody Cuenta newCuenta) {
 		JSONObject respuesta= new JSONObject();
-		if(ciudadService.modificarCiudad(newCiudad).equals("Se modifico la ciudad")) {
+		if(cuentaService.modificarCuenta(newCuenta).equals("Se modifico la cuenta")) {
 			respuesta.put("respuesta", true);
 			return respuesta.toString();
 		}else {
@@ -98,6 +96,4 @@ public class CiudadController {
 		}
 		
 	}
-
-	
 }
